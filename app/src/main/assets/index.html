@@ -1,0 +1,194 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8" />
+</head>
+
+<body>
+<div id="stories_widget"></div>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+        }
+    </style>
+<script>
+        window.IASReady = (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0], st = window.IASReady || {};
+            if (d.getElementById(id)) return st;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://sdk.test.inappstory.com/v2.9.3/dist/js/IAS.js";
+            //js.src = "/js/IAS.js";
+            //js.async = true;
+            fjs.parentNode.insertBefore(js, fjs);
+            st._e = [];
+            st.ready = function (f) {
+                st._e.push(f);
+            };
+            return st;
+        }(document, "script", "ias-wjss"));
+
+
+        window.IASReady.ready(async function () {
+            const storyManagerConfig = {
+                apiKey: "test-key",
+                userId: `cs_kdijhud4454dd5a4`,
+                tags: ["homer", "name1"],
+                placeholders: {
+                    "username2у3": "Guest2y3",
+                },
+                appPackageId: "com.inappstory.webpreview",
+                lang: "en",
+            };
+
+            const storyManager = createStoryManager(storyManagerConfig)
+            const appearanceManager = createAppearanceManager({})
+
+            //const storiesList = new storyManager.StoriesList("#stories_widget", appearanceManager, { feed: "default", useUgcCard: false });
+            storyManager.openGame(34, appearanceManager);
+        })
+
+        const createStoryManager = (storyManagerConfig) => {
+            const storyManager = new window.IAS.StoryManager(storyManagerConfig);
+            const publicEvents = ["feedLoad", "feedImpression", "visibleAreaUpdated", "clickOnStory", "showSlide", "showStory", "closeStory", "clickOnButton", "likeStory", "dislikeStory", "favoriteStory", "shareStory", "shareStoryWithPath"];
+            publicEvents.forEach(eventName => storyManager.on(eventName, payload => console.log("event", eventName, payload)));
+            return storyManager;
+        };
+
+        const createAppearanceManager = ({ aspectRatio }) => {
+            const appearanceManager = new window.IAS.AppearanceManager();
+            appearanceManager
+                .setCommonOptions({
+                    hasLike: true,
+                    hasFavorite: true,
+                })
+                .setStoriesListOptions({
+                    card: {
+                        coverLazyLoading: true,
+                        aspectRatio,
+                        title: {
+                            font: "bold normal 14px/16px \"TT Commons\"",
+                            padding: "26px 26px 16px 16px",
+                            lineClamp: 2,
+                            textAlign: "left",
+                        },
+                        gap: 10,
+                        height: 178,
+                        variant: "rectangle",
+                        border: {
+                            radius: 26,
+                            color: "#0c62f3",
+                            width: 2,
+                            gap: 4,
+                        },
+                        boxShadow: null,
+                        opacity: 1,
+                        mask: {
+                            color: "rgba(34, 34, 34, 0.3)",
+                        },
+                        svgMask: null,
+                        opened: {
+                            border: {
+                                radius: 26,
+                                color: "transparent",
+                                width: 2,
+                                gap: 4,
+                            },
+                            boxShadow: null,
+                            opacity: null,
+                        },
+                    },
+                    favoriteCard: {
+                        title: {
+                            content: "Favorite",
+                        },
+                    },
+                    ugcCard: {
+                        title: {
+                            color: "white",
+                        },
+                        border: {
+                            color: "#0c62f3",
+                        },
+                        backgroundColor: "#0c62f3",
+                        image: {
+                            svgSrc: {
+                                baseState: `<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M50 85.5C69.6061 85.5 85.5 69.6061 85.5 50C85.5 30.3939 69.6061 14.5 50 14.5C30.3939 14.5 14.5 30.3939 14.5 50C14.5 69.6061 30.3939 85.5 50 85.5Z" stroke="white" stroke-width="2"/>
+<path d="M50.5 34.5V65.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M34.5 49.5H65.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`,
+                            },
+                        },
+                    },
+                    layout: {
+                        height: 0,
+                        backgroundColor: "transparent",
+                    },
+                    sidePadding: 20,
+                    topPadding: 0,
+                    bottomPadding: 0,
+                    bottomMargin: 0,
+                    navigation: {
+                        showControls: false,
+                        controlsSize: 48,
+                        controlsBackgroundColor: "white",
+                        controlsColor: "black",
+                    },
+                })
+                .setStoryReaderOptions({
+                    closeButtonPosition: "right",
+                    scrollStyle: "flat",
+                    slideBorderRadius: 5,
+                })
+                .setStoryFavoriteReaderOptions({
+                    title: {
+                        content: "Favorite",
+                        font: "1.6rem/1.4 TT Commons",
+                        color: "white",
+                    },
+                }).setGoodsWidgetOptions({
+                    goodsWidgetRenderingType: "default", // DEPRECATED
+                    goodsList: {
+                        renderingType: "default",
+                        substrateHeight: 200,
+                        closeBackgroundColor: "gray"
+                    },
+                    goodsCard: {
+                        titleFont: "bold 1rem \"TT Commons\"",
+                        priceFont: "bold 1rem \"TT Commons\"",
+                        oldPriceFont: "bold 1rem \"TT Commons\"",
+                        imageBackgroundColor: "#0C62F3",
+                    },
+                    itemClickHandler: (goods) => {
+                        console.log(goods.sku);
+                        alert(goods.sku);
+                    },
+                    openGoodsWidgetHandler: goodsList => Promise.resolve(goodsList.map(goods => ({
+                        ...goods,
+                        title: "Title",
+                        subTitle: "Description",
+                        price: "999",
+                        oldPrice: "1999",
+                    })))
+                });
+
+            return appearanceManager;
+        };
+
+    </script>
+</body>
+
+</html>
