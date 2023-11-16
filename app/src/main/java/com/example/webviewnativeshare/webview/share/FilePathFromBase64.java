@@ -47,7 +47,7 @@ public class FilePathFromBase64 implements Callable<ArrayList<String>> {
                 File file = new File(folder + "/" + fileName + "." + ext);
                 FileOutputStream os = null;
 
-                os = new FileOutputStream(file, true);
+                os = new FileOutputStream(file, false);
                 os.write(fileAsBytes);
                 os.flush();
                 os.close();
